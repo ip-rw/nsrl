@@ -235,7 +235,7 @@ func main() {
 						continue
 					}
 
-					path := line[i:]
+					path := bytes.TrimSpace(line[i:])
 					hash := bytes.ToUpper(line[:i])
 
 					res := lookUp(filter, hash)
