@@ -3,11 +3,11 @@ package main
 import (
 	"bufio"
 	"bytes"
-	"github.com/ip-rw/bloom"
 	"encoding/binary"
 	"encoding/csv"
 	"encoding/json"
 	"fmt"
+	"github.com/ip-rw/bloom"
 	"github.com/malice-plugins/pkgs/utils"
 	log "github.com/sirupsen/logrus"
 	"github.com/urfave/cli"
@@ -21,7 +21,7 @@ import (
 
 var (
 	ErrorRate = "0.001"
-	HashType = "sha1"
+	HashType  = "sha1"
 )
 
 const (
@@ -98,7 +98,7 @@ func getNSRLFieldFromHashType() int {
 }
 
 // build bloomfilter from NSRL database
-func buildFilter(string) {
+func buildFilter(db string) {
 	var err error
 	nsrlField := getNSRLFieldFromHashType()
 
@@ -142,7 +142,7 @@ func buildFilter(string) {
 		filter.Add([]byte(record[nsrlField]))
 	}
 
-	bloomFile, err := os.Create("nsrl.bloom")
+	bloomFile, err := os.Create(path.Join(db, "nsrl.bloom"))
 	assert(err)
 	defer bloomFile.Close()
 
@@ -190,11 +190,10 @@ func main() {
 			Usage: "verbose output",
 		},
 		cli.StringFlag{
-			Name:   "db",
-			Value:  "db",
-			Usage:  "db path",
+			Name:  "db",
+			Value: "db",
+			Usage: "db path",
 		},
-
 	}
 	app.Commands = []cli.Command{
 		{
