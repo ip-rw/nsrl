@@ -25,19 +25,19 @@ fi
 
 echo "[INFO] Unzip NSRL Database zip to /nsrl/ ..."
 # 7za x -o/nsrl/ /nsrl/*.zip
-cd ./db && unzip -j *.zip
+cd ./db && unzip -j *.zip && cd ..
 
 echo "[INFO] Build bloomfilter from NSRL Database ..."
-../nsrl --verbose build
+nsrl --verbose build
 
 echo "[INFO] Listing created files ..."
 ls -lah ./db
 
 echo "[INFO] Saving uncompressed NSRL DB size..."
-ls -lah NSRLFile.txt | awk '{print $5}' > ./db/DBSZIE
+ls -lah ./db/NSRLFile.txt | awk '{print $5}' > ./db/DBSZIE
 
 echo "[INFO] Saving bloomfilter size..."
-ls -lah nsrl.bloom | awk '{print $5}' > ./db/BLOOMSIZE
+ls -lah ./db/nsrl.bloom | awk '{print $5}' > ./db/BLOOMSIZE
 
 echo "[INFO] Deleting all unused files ..."
 rm -f *.zip *.txt *.sh *.sha

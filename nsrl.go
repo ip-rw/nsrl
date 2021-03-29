@@ -103,7 +103,7 @@ func buildFilter(db string) {
 	nsrlField := getNSRLFieldFromHashType()
 
 	// open NSRL database
-	nsrlDB, err := os.Open("NSRLFile.txt")
+	nsrlDB, err := os.Open(path.Join(db, "NSRLFile.txt"))
 	assert(err)
 	defer nsrlDB.Close()
 	// count lines in NSRL database
@@ -113,7 +113,7 @@ func buildFilter(db string) {
 	// write line count to file LINECOUNT
 	buf := new(bytes.Buffer)
 	assert(binary.Write(buf, binary.LittleEndian, lines))
-	assert(ioutil.WriteFile("LINECOUNT", buf.Bytes(), 0644))
+	assert(ioutil.WriteFile(path.Join(db, "LINECOUNT"), buf.Bytes(), 0644))
 
 	// Create new bloomfilter with size = number of lines in NSRL database
 	erate, err := strconv.ParseFloat(ErrorRate, 64)
@@ -158,7 +158,7 @@ func load(db string) *bloom.Bloom {
 	var lines uint64
 
 	// read line count from file LINECOUNT
-	lineCount, err := ioutil.ReadFile("LINECOUNT")
+	lineCount, err := ioutil.ReadFile(path.Join(db, "LINECOUNT"))
 	assert(err)
 	buf := bytes.NewReader(lineCount)
 	assert(binary.Read(buf, binary.LittleEndian, &lines))
