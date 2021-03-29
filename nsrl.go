@@ -230,7 +230,7 @@ func main() {
 				for scanner.Scan() {
 					line := scanner.Bytes()
 					var i int
-					if i := bytes.IndexAny(line, "\t "); i < 1 {
+					if i = bytes.IndexAny(line, "\t "); i < 1 {
 						log.Warn(fmt.Errorf("please supply a valid %s hash and filename (%s)", strings.ToUpper(HashType), line))
 						continue
 					}
